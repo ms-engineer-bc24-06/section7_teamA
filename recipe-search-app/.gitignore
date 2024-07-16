@@ -31,18 +31,17 @@ Thumbs.db
 .idea/
 
 # Python
-venv/
+/backend/venv/
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.pyd
 .Python
-env/
-env.bak/
-venv.bak/
+/backend/env/
+backend/env.bak/
+backend/venv.bak/
 
 # Flask
-instance/
-.pytest_cache/
+/backend/instance/
+/backend/.pytest_cache/
 
