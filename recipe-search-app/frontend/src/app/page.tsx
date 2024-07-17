@@ -33,7 +33,7 @@ const Home = () => {
         borderColor: 'black', 
         borderWidth: '2px',
         fontSize: '20px',
-        marginTop: '-50px'
+        marginTop: '-20px'
       }}>
         Login with Google
       </button>
