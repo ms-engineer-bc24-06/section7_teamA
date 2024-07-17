@@ -1,5 +1,9 @@
-from flask import Flask
 
-app = Flask(__name__)
+#app初期化、
+# src/app/main.py
+from . import create_app
 
-# ここにアプリケーションの設定やルートなどを追加する
+if __name__ == '__main__':
+    app = create_app()
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
