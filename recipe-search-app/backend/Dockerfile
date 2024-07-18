@@ -1,13 +1,14 @@
-
 # ベースイメージの指定
 FROM python:3.8-slim
 
 # 作業ディレクトリの設定
-WORKDIR /app
+WORKDIR /backend/src/app
 
 # 必要なパッケージのインストール
 RUN apt-get update && apt-get install -y \
     build-essential \
+    default-libmysqlclient-dev \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # 依存関係ファイルのコピーとインストール
@@ -25,5 +26,5 @@ ENV FLASK_RUN_HOST=0.0.0.0
 EXPOSE 5000
 
 # アプリケーションの実行
-CMD ["flask", "run"]
+CMD ["flask", "run", "--port=5000"]
 

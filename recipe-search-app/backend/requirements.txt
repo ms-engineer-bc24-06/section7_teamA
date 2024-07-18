@@ -1,3 +1,6 @@
 Flask
 Flask-CORS
 requests
+python-dotenv==1.0.1
+SQLAlchemy
+mysqlclient
