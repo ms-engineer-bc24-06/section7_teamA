@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { auth } from "../../../firebaseConfig";
 
 interface Recipe {
   id: number;
@@ -12,23 +14,60 @@ interface Recipe {
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<Recipe[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
+  const router = useRouter(); // useRouterフックを使用してルーティングを管理
 
+  // ユーザーのUIDを取得
   useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/favorites");
-        setFavorites(response.data);
-      } catch (error) {
-        console.error("Error fetching favorites:", error);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUserId(user.uid); // 認証されたユーザーのUIDを設定
+      } else {
+        setUserId(null); // ユーザーが認証されていない場合はnullを設定
       }
-    };
-
-    fetchFavorites();
+    });
+    return unsubscribe;
   }, []);
+
+  // UIDに基づいてお気に入りレシピを取得
+  useEffect(() => {
+    if (userId) {
+      const fetchFavorites = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/favorites?user_id=${userId}`
+          );
+          setFavorites(response.data);
+        } catch (error) {
+          console.error("エラーが起きました");
+        }
+      };
+
+      fetchFavorites();
+    }
+  }, [userId]);
+
+  // お気に入りレシピを削除する関数
+  const deleteFavorite = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:5000/favorites/${id}`);
+      // 削除後にお気に入りリストを更新
+      setFavorites(favorites.filter((favorite) => favorite.id !== id));
+      alert("お気に入りを削除しました");
+    } catch (error) {
+      console.error("Error deleting favorite:", error);
+    }
+  };
 
   return (
     <div className="text-center">
       <h1 className="text-3xl mt-10">お気に入りのレシピ</h1>
+      <button
+        onClick={() => router.back()}
+        className="mt-5 px-5 py-2 border-2 border-black text-xl"
+      >
+        戻る
+      </button>
       {favorites.length === 0 ? (
         <p className="mt-5">お気に入りレシピがありません。</p>
       ) : (
@@ -43,6 +82,12 @@ export default function Favorites() {
               >
                 レシピを見る
               </a>
+              <button
+                onClick={() => deleteFavorite(recipe.id)}
+                className="mt-3 px-5 py-2 border-2 border-red-500 text-xl text-red-500"
+              >
+                削除
+              </button>
             </div>
           ))}
         </div>
