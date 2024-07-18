@@ -8,8 +8,14 @@ favorites_bp = Blueprint('favorites', __name__, url_prefix='/favorites')
 @favorites_bp.route('/', methods=['GET'])
 def get_favorites():
     session = Session()
+    user_id = request.args.get('user_id')  # クエリパラメータからuser_idを取得
     try:
-        favorites = session.query(Favorite).all()
+        if user_id:
+            # user_idに基づいてフィルタリング
+            favorites = session.query(Favorite).filter(Favorite.user_id == user_id).all()
+        else:
+            # user_idがない場合は全てのfavoritesを返す
+            favorites = session.query(Favorite).all()
         response = jsonify([favorite.as_dict() for favorite in favorites])
         return response
     except Exception as e:

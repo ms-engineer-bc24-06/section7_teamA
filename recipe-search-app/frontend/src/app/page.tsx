@@ -47,7 +47,7 @@ const Home = () => {
         />
       </div>
       <h1 style={{ fontSize: "36px", marginBottom: "300px" }}>
-        今日のお味噌汁アプリ
+        今日のお味噌汁
       </h1>
       {/* ボタンの仮設置 */}
       <button
