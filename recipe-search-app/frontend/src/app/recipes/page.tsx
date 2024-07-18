@@ -63,7 +63,7 @@ export default function Recipes() {
         await axios.post("http://localhost:5000/favorites/", recipeWithUserId);
         alert(`${recipe.title}をお気に入りに追加しました！`);
       } catch (error) {
-        console.error("エラーが起きました");
+        console.error("エラーが起きました", error);
       }
     } else {
       alert("ユーザーが認証されていません");
