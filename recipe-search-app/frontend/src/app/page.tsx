@@ -5,6 +5,7 @@ import Image from "next/image";
 import { auth, provider } from "../../firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import logger from "../lib/logger";
 
 const Home = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const Home = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      console.log("Logged in user:", user);
+      logger.log("Logged in user:", user);
       // ログイン成功後に /recipes ページにリダイレクト
       router.push("/recipes");
     } catch (error) {
