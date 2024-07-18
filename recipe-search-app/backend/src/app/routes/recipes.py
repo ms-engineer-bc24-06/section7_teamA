@@ -1,25 +1,63 @@
-#src/app/routes/recipes.py
-#レシピ取得エントリポイント
+# レシピ
 from flask import Blueprint, request, jsonify
-from ..services.recipe_service import RecipeService
+from app.models import Recipe
+from app.config import Session
 
-bp = Blueprint('recipes', __name__)
-recipe_service = RecipeService()
+recipes_bp = Blueprint('recipes', __name__)
 
-@bp.route('/recipes', methods=['GET'])
+@recipes_bp.route('/', methods=['GET'])
 def get_recipes():
-    category_id = request.args.get('categoryId')  # URLパラメータからカテゴリIDを取得
+    session = Session()
+    recipes = session.query(Recipe).all()
+    response = jsonify([recipe.as_dict() for recipe in recipes])
+    session.close()
+    return response
 
-    if not category_id:
-        return jsonify({"error": "カテゴリIDが指定されていません"}), 400
+@recipes_bp.route('/<int:id>', methods=['GET'])
+def get_recipe(id):
+    session = Session()
+    recipe = session.query(Recipe).get(id)
+    if recipe is None:
+        session.close()
+        return jsonify({'error': 'Recipe not found'}), 404
+    response = jsonify(recipe.as_dict())
+    session.close()
+    return response
 
-    try:
-        recipes = recipe_service.get_recipes_by_category_id(category_id)
-        if not recipes:
-            return jsonify({"error": "レシピが見つかりませんでした"}), 404
+@recipes_bp.route('/', methods=['POST'])
+def create_recipe():
+    session = Session()
+    data = request.get_json()
+    recipe = Recipe(**data)
+    session.add(recipe)
+    session.commit()
+    response = jsonify(recipe.as_dict())
+    session.close()
+    return response, 201
 
-        return jsonify(recipes)
-    except Exception as e:
-        print(f"エラーが発生しました: {e}")
-        return jsonify({"error": str(e)}), 500
+@recipes_bp.route('/<int:id>', methods=['PUT'])
+def update_recipe(id):
+    session = Session()
+    data = request.get_json()
+    recipe = session.query(Recipe).get(id)
+    if recipe is None:
+        session.close()
+        return jsonify({'error': 'Recipe not found'}), 404
+    for key, value in data.items():
+        setattr(recipe, key, value)
+    session.commit()
+    response = jsonify(recipe.as_dict())
+    session.close()
+    return response
 
+@recipes_bp.route('/<int:id>', methods=['DELETE'])
+def delete_recipe(id):
+    session = Session()
+    recipe = session.query(Recipe).get(id)
+    if recipe is None:
+        session.close()
+        return jsonify({'error': 'Recipe not found'}), 404
+    session.delete(recipe)
+    session.commit()
+    session.close()
+    return '', 204

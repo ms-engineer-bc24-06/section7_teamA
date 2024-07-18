@@ -132,3 +132,4 @@ if miso_soup_category_id:
         print("説明:", recipe['description'])
         print("材料:", ", ".join(recipe['materials']))
         print()
+

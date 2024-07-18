@@ -1,7 +1,14 @@
+import os
+import sys
+
+# パスを設定
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.config import DATABASE_URL, Base
 from app.models import Recipe
+
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -96,10 +103,7 @@ recipes = [
 ]
 
 # 初期データの追加
-for recipe in recipes:
-    session.add(recipe)
-
-# コミットしてデータベースに保存
+session.add_all(recipes)
 session.commit()
 
-print("Seeding completed successfully.")
+print("データのシーディングが完了しました。")
