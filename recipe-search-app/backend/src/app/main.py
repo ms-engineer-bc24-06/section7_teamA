@@ -27,7 +27,7 @@ def create_app():
 
     app.register_blueprint(recipes_bp, url_prefix='/recipes')
     app.register_blueprint(favorites_bp, url_prefix='/favorites')
-
+    
     return app
 
 app = create_app()

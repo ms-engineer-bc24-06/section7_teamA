@@ -14,7 +14,7 @@ class Recipe(Base):
 class Favorite(Base):
     __tablename__ = "favorites"
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, index=True) 
+    user_id = Column(String(50), index=True)  # ここを修正 
     season = Column(String(5), index=True)
     title = Column(String(100), index=True)
     description = Column(String(500))
