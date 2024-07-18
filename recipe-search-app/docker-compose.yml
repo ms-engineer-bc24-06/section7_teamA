@@ -1,5 +1,4 @@
 
-
 services:
   frontend:
     build:
@@ -19,7 +18,33 @@ services:
       - '5000:5000'
     environment:
       - FLASK_ENV=development
+      - DATABASE_URL=mysql://user:password@db:3306/mydatabase
     volumes:
       - ./backend:/app
     command: flask run --host=0.0.0.0 --port=5000
-    
+    depends_on:
+      - db
+    networks:
+      - shared-network
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - shared-network
+
+volumes:
+  mysqldata:
+
+networks:
+  shared-network:
+    driver: bridge

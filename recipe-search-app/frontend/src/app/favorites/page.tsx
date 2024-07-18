@@ -47,6 +47,18 @@ export default function Favorites() {
     }
   }, [userId]);
 
+  // お気に入りレシピを削除する関数
+  const deleteFavorite = async (id: number) => {
+    try {
+      await axios.delete(`http://localhost:5000/favorites/${id}`);
+      // 削除後にお気に入りリストを更新
+      setFavorites(favorites.filter((favorite) => favorite.id !== id));
+      alert("お気に入りを削除しました");
+    } catch (error) {
+      console.error("Error deleting favorite:", error);
+    }
+  };
+
   return (
     <div className="text-center">
       <h1 className="text-3xl mt-10">お気に入りのレシピ</h1>
@@ -70,6 +82,12 @@ export default function Favorites() {
               >
                 レシピを見る
               </a>
+              <button
+                onClick={() => deleteFavorite(recipe.id)}
+                className="mt-3 px-5 py-2 border-2 border-red-500 text-xl text-red-500"
+              >
+                削除
+              </button>
             </div>
           ))}
         </div>
