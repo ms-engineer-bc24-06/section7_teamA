@@ -19,8 +19,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Flask環境変数の設定
-ENV FLASK_APP=src/app/main.py
+#ENV FLASK_APP=src/app/main.py
+ENV FLASK_APP=src.app.main
 ENV FLASK_RUN_HOST=0.0.0.0
+ENV FLASK_ENV=development
+
 
 # 3000番ポートでリッスン
 EXPOSE 5000

@@ -40,8 +40,8 @@ recipes = [
     # 夏のレシピ
     Recipe(
         season="夏",
-        title="オクラと長芋の冷たい味噌汁",
-        description="https://cookpad.com/recipe/2818256"
+        title="オクラと長芋の冷製味噌汁",
+        description="https://cookpad.com/recipe/7840391"
     ),
     Recipe(
         season="夏",
@@ -71,8 +71,8 @@ recipes = [
     ),
     Recipe(
         season="秋",
-        title="れんこんと豚肉の味噌汁",
-        description="https://cookpad.com/recipe/2675288"
+        title="豚肉と蓮根のお味噌汁",
+        description="https://cookpad.com/recipe/1648661"
     ),
     Recipe(
         season="秋",
@@ -83,7 +83,7 @@ recipes = [
     Recipe(
         season="冬",
         title="白菜と豚肉の味噌汁",
-        description="https://cookpad.com/recipe/4229538"
+        description="https://cookpad.com/recipe/4928080"
     ),
     Recipe(
         season="冬",

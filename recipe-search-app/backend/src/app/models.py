@@ -1,3 +1,5 @@
+
+
 from sqlalchemy import Column, Integer, String, ForeignKey
 from app.config import Base
 
@@ -21,3 +23,4 @@ class Favorite(Base):
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    
