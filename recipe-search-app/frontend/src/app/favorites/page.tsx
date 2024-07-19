@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { auth } from "../../../firebaseConfig";
+import { auth } from "../../lib/firebaseConfig";
 
 interface Recipe {
   id: number;
@@ -61,37 +61,42 @@ export default function Favorites() {
 
   return (
     <div className="text-center">
-      <h1 className="text-3xl mt-10">お気に入りのレシピ</h1>
-      <button
-        onClick={() => router.back()}
-        className="mt-5 px-5 py-2 border-2 border-black text-xl"
-      >
-        戻る
-      </button>
+      <h1 className="text-3xl mt-10 mb-16">お気に入りのレシピ</h1>
+
       {favorites.length === 0 ? (
         <p className="mt-5">お気に入りレシピがありません。</p>
       ) : (
         <div className="mt-10">
           {favorites.map((recipe) => (
-            <div key={recipe.id} className="mb-5">
+            <div key={recipe.id} className="mt-10 mb-5">
               <h2 className="text-2xl">{recipe.title}</h2>
               <a
                 href={recipe.description}
                 target="_blank"
-                className="mt-2 text-blue-500 underline"
+                className="mt-2 text-gray-500 underline"
               >
                 レシピを見る
               </a>
-              <button
-                onClick={() => deleteFavorite(recipe.id)}
-                className="mt-3 px-5 py-2 border-2 border-red-500 text-xl text-red-500"
-              >
-                削除
-              </button>
+              <div>
+                <button
+                  onClick={() => deleteFavorite(recipe.id)}
+                  className="mt-3 px-5 py-2 border border-gray-700 text-base rounded-full"
+                >
+                  削除
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
+      <div>
+        <button
+          onClick={() => router.back()}
+          className="mt-10 px-5 py-2 border border-gray-700 text-base rounded-lg"
+        >
+          戻る
+        </button>
+      </div>
     </div>
   );
 }

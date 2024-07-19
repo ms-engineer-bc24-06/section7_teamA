@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { auth, provider } from "../../firebaseConfig";
+import { auth, provider } from "../lib/firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import logger from "../lib/logger";
