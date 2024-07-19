@@ -1,6 +1,7 @@
 import sys
 import os
-from flask import Flask, send_from_directory, render_template
+import logging  # 追加
+from flask import Flask, send_from_directory, render_template, request
 from flask_cors import CORS
 
 # プロジェクトのルートディレクトリを `sys.path` に追加
@@ -15,10 +16,19 @@ from app.routes.favorites import favorites_bp
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    CORS(app)
+    cors = CORS(app, resources={
+        r"/*": {  # すべてのエンドポイントを対象
+            "origins": ["http://localhost:3000"],  # 許可するオリジン
+            "methods": ["GET", "POST", "PUT", "DELETE"],  # 許可するHTTPメソッドを指定
+            "allowed_headers": ["Content-Type", "Authorization"]  # 許可するヘッダーを指定
+        }
+    })
 
     db.init_app(app)
-    
+    @app.before_request
+    def log_request_info():
+        app.logger.debug(f"Request Headers: {request.headers}")
+
     @app.route('/')
     def hello():
         return render_template('index.html')
