@@ -15,7 +15,6 @@ const Home = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       logger.log("Logged in user:", user);
-      // ログイン成功後に /recipes ページにリダイレクト
       router.push("/recipes");
     } catch (error) {
       console.error("ログインできませんでした");
@@ -23,23 +22,8 @@ const Home = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        textAlign: "center",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center", // 中央寄せ
-        paddingTop: "50px", // 上部に50pxの余白
-      }}
-    >
-      <div
-        style={{
-          margin: "auto",
-          maxWidth: "300px",
-        }}
-      >
+    <div className="text-center" style={{ backgroundColor: "white", height: "100vh", display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div className="w-[300px] mx-auto mt-16" style={{ marginBottom: "16px" }}>
         <Image
           src="/food_omisoshiru.png"
           alt="お味噌汁"
@@ -47,22 +31,19 @@ const Home = () => {
           height={200}
         />
       </div>
-      <h1 style={{ fontSize: "36px", marginBottom: "300px" }}>
-        今日のお味噌汁
-      </h1>
-      {/* ボタンの仮設置 */}
+      <h1 className="text-3xl mb-12">今日のお味噌汁</h1>
       <button
-        style={{
-          padding: "10px 20px",
-          borderStyle: "solid",
-          borderColor: "black",
-          borderWidth: "2px",
-          fontSize: "20px",
-          marginTop: "-50px",
-        }}
-        onClick={signInWithGoogle} // ボタンクリックでGoogle認証を開始
+        onClick={signInWithGoogle}
+        className="px-5 py-2 border border-gray-700 text-lg rounded-xl flex items-center gap-2"
       >
-        Login with Google
+        <Image
+          src="/Unknown.jpeg"
+          alt="Unknown"
+          width={20}
+          height={20}
+          style={{ objectFit: 'cover' }}
+        />
+        Googleでログイン
       </button>
     </div>
   );
