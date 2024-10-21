@@ -1,4 +1,5 @@
 # 今日のお味噌汁
+### [今日のお味噌汁アプリ動画を再生する](https://drive.google.com/file/d/178yW5hcbuZNi_0jtpQRoGIj5QLwtDsg7/view?usp=share_link)
 
 ### Team-a : haruka , kumi , mikiko , nanako
 
